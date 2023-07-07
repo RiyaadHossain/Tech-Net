@@ -6,7 +6,7 @@ import { IProduct } from '../../../types/globalTypes';
 interface CartState {
   products: IProduct[];
 }
-
+ 
 const initialState: CartState = {
   products: [],
 };
