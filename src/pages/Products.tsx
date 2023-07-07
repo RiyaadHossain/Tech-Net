@@ -2,22 +2,17 @@ import ProductCard from '@/components/ProductCard';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
+import { useGetAllProductsQuery } from '@/redux/api/apiSlice';
 import {
   toggleStock,
   setPriceRange,
 } from '@/redux/features/product/productSlice';
 import { useAppSelector } from '@/redux/hook';
 import { IProduct } from '@/types/globalTypes';
-import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 export default function Products() {
-  const [data, setData] = useState<IProduct[]>([]);
-  useEffect(() => {
-    fetch('./data.json')
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
+  const { data, /* isLoading, */ /* error */ } = useGetAllProductsQuery(undefined);
 
   const dispatch = useDispatch();
   const { status, priceRange } = useAppSelector((state) => state.product);
@@ -27,13 +22,15 @@ export default function Products() {
   };
 
   // Filter Products
-  let productsData;
+  let productsData = [];
   if (status) {
-    productsData = data.filter(
-      (item) => item.status === true && item.price <= priceRange
+    productsData = data?.data?.filter(
+      (item: IProduct) => item.status === true && item.price <= priceRange
     );
   } else if (priceRange > 0) {
-    productsData = data.filter((item) => item.price <= priceRange);
+    productsData = data?.data?.filter(
+      (item: IProduct) => item.price <= priceRange
+    );
   } else {
     productsData = data;
   }
@@ -66,8 +63,8 @@ export default function Products() {
         </div>
       </div>
       <div className="col-span-9 grid grid-cols-3 gap-10 pb-20">
-        {productsData?.map((product) => (
-          <ProductCard product={product} />
+        {productsData?.map((product: IProduct) => (
+          <ProductCard key={product._id} product={product} />
         ))}
       </div>
     </div>
