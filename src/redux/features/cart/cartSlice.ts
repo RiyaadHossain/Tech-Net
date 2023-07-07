@@ -5,10 +5,12 @@ import { IProduct } from '../../../types/globalTypes';
 
 interface CartState {
   products: IProduct[];
+  total: number;
 }
- 
+
 const initialState: CartState = {
   products: [],
+  total: 0,
 };
 
 export const cartSlice = createSlice({
@@ -24,14 +26,17 @@ export const cartSlice = createSlice({
       } else {
         state.products.push({ ...action.payload, quantity: 1 });
       }
+
+      state.total += action.payload.price;
     },
 
     minusQuanitty: (state, action: PayloadAction<IProduct>) => {
       const productExist = state.products.find(
         (product) => product._id === action.payload._id
       );
-      if (productExist) {
+      if (productExist && productExist.quantity! > 1) {
         productExist.quantity = productExist.quantity! - 1;
+        state.total -= action.payload.price;
       }
     },
 
@@ -39,6 +44,8 @@ export const cartSlice = createSlice({
       state.products = state.products.filter(
         (product) => product._id !== action.payload._id
       );
+
+      state.total -= action.payload.price * action.payload.quantity!;
     },
   },
 });
