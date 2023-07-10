@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import ProductReview from '@/components/ProductReview';
 import { Button } from '@/components/ui/button';
 import { useGetProductQuery } from '@/redux/api/apiSlice';
@@ -25,7 +27,7 @@ export default function ProductDetails() {
           <Button>Add to cart</Button>
         </div>
       </div>
-      <ProductReview />
+      <ProductReview id={id!} />
     </>
   );
 }

@@ -20,6 +20,7 @@ import {
   minusQuanitty,
   removeFromCart,
 } from '@/redux/features/cart/cartSlice';
+import { IProduct } from '@/types/globalTypes';
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ export default function Cart() {
           <h1>Total: {total.toFixed(2)}</h1>
         </SheetHeader>
         <div className="space-y-5">
-          {products.map((product) => (
+          {products.map((product: IProduct) => (
             <div
               className="border h-44 p-5 flex justify-between rounded-md"
               key={product.name}
