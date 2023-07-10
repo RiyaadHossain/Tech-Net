@@ -6,7 +6,7 @@ import { FiSend } from 'react-icons/fi';
 import {
   useGetCommentsQuery,
   usePostCommentMutation,
-} from '@/redux/api/apiSlice';
+} from '@/redux/features/product/productApi';
 
 interface IProps {
   id: string;
@@ -50,7 +50,7 @@ export default function ProductReview({ id }: IProps) {
         </Button>
       </form>
       <div className="mt-10">
-        {data?.comments.map((comment:string, index: number) => (
+        {data?.comments.map((comment: string, index: number) => (
           <div key={index} className="flex gap-3 items-center mb-5">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" />
