@@ -6,7 +6,7 @@ const productApi = api.injectEndpoints({
       query: () => 'products',
     }),
     getProduct: builder.query({
-      query: (id) => `product/${id}`,
+      query: (id: string) => `product/${id}`,
     }),
     postComment: builder.mutation({
       query: ({ id, data }) => ({
@@ -17,7 +17,7 @@ const productApi = api.injectEndpoints({
       invalidatesTags: ['Comments'],
     }),
     getComments: builder.query({
-      query: (id) => `comment/${id}`,
+      query: (id: string) => `comment/${id}`,
       providesTags: ['Comments'],
     }),
   }),
