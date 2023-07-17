@@ -13,7 +13,7 @@ export default function PrivateRoute({ children }: IProps) {
   if (isLoading) return <p>Loading...</p>;
 
   if (!user.email && !isLoading)
-    return <Navigate to="/login" state={{ path: pathname }} />;
+    return <Navigate to="/login" state={{ path: pathname }} replace />;
 
   return children;
 }

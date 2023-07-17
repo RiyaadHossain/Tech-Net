@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/images/technet-logo-white.png';
 import { LoginForm } from '@/components/LoginForm';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
@@ -10,20 +10,21 @@ import { auth } from '@/lib/firebase';
 import { setUser } from '@/redux/features/user/userSlice';
 
 export default function Login() {
-
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.user);
+  const path = location?.state?.path?.pathname || '/';
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       dispatch(setUser(user?.email));
     });
-  }, [dispatch]);
 
-  const { user } = useAppSelector((state) => state.user);
-  if (user.email) {
-    navigate('/');
-  }
+    if (user.email) {
+      navigate(path, { replace: true });
+    }
+  }, [dispatch, user.email, path, navigate]);
 
   return (
     <>
